@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BumiShare - Website Tukar & Donasi Barang Layak Pakai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info.active {
+            display: flex;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Landing Page */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: #6c757d;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-btn:hover {
+            background: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+
+        .cta-btn.secondary {
+            background: #007bff;
+        }
+
+        .cta-btn.secondary:hover {
+            background: #0056b3;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 12px 15px;
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .file-input-label:hover {
+            background: #e6f3ff;
+        }
+
+        .form-btn {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .form-btn:hover {
+            background: #218838;
+        }
+
+        /* Items Grid */
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: #6c757d;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .item-category {
+            background: #007bff;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        .item-description {
+            color: #6c757d;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .item-location {
+            color: #28a745;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .item-date {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .item-card-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #007bff;
+            color: white;
+        }
+
+        .item-card-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modal-fade-in 0.3s ease-out;
+        }
+        
+        @keyframes modal-fade-in {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(calc(100% + 30px));
+            transition: transform 0.5s ease-in-out;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        .notification.info {
+            background: #17a2b8;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .items-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                🌱 BumiShare
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-section="home" onclick="showSection('home')">🏠 Beranda</button>
+                <button class="nav-btn" data-section="items" onclick="showSection('items')">📦 Barang</button>
+                <button class="nav-btn" data-section="add-item" onclick="showSection('add-item')" id="addItemBtn" style="display: none;">➕ Tambah Barang</button>
+                <button class="nav-btn" data-section="my-items" onclick="showSection('my-items')" id="myItemsBtn" style="display: none;">📋 Barangku</button>
+                <button class="nav-btn" data-section="requests" onclick="showSection('requests')" id="requestsBtn" style="display: none;">📬 Permintaan</button>
+                <button class="nav-btn" onclick="showLoginModal()" id="loginBtn">🔐 Masuk</button>
+                <button class="nav-btn" onclick="logout()" id="logoutBtn" style="display: none;">🚪 Keluar</button>
+            </nav>
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span id="userName">User</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section id="home" class="section active">
+                <div class="hero">
+                    <h1>🌍 Berbagi untuk Bumi yang Lebih Baik</h1>
+                    <p>Platform untuk menukar dan mendonasikan barang layak pakai. Mari bersama-sama mengurangi limbah dan membantu sesama!</p>
+                    <div class="cta-buttons">
+                        <button class="cta-btn" onclick="showSection('items')">
+                            🔍 Jelajahi Barang
+                        </button>
+                        <button class="cta-btn secondary" id="heroShareBtn" onclick="showLoginModal()">
+                            🚀 Mulai Berbagi
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalItems">0</div>
+                        <div class="stat-label">Barang Tersedia</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Pengguna Aktif</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalDonations">0</div>
+                        <div class="stat-label">Donasi Berhasil</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalExchanges">0</div>
+                        <div class="stat-label">Tukar Berhasil</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="items" class="section">
+                <div class="items-header">
+                    <div>
+                        <h2 class="section-title">📦 Barang Tersedia</h2>
+                        <p>Temukan barang yang Anda butuhkan atau minati</p>
+                    </div>
+                    <div class="filters">
+                        <select class="filter-select" id="categoryFilter" onchange="filterItems()">
+                            <option value="">Semua Kategori</option>
+                            <option value="pakaian">👕 Pakaian</option>
+                            <option value="buku">📚 Buku</option>
+                            <option value="elektronik">📱 Elektronik</option>
+                            <option value="perabotan">🪑 Perabotan</option>
+                            <option value="mainan">🧸 Mainan</option>
+                            <option value="olahraga">⚽ Olahraga</option>
+                            <option value="lainnya">📦 Lainnya</option>
+                        </select>
+                        <select class="filter-select" id="locationFilter" onchange="filterItems()">
+                            <option value="">Semua Lokasi</option>
+                            <option value="jakarta">Jakarta</option>
+                            <option value="bandung">Bandung</option>
+                            <option value="surabaya">Surabaya</option>
+                            <option value="yogyakarta">Yogyakarta</option>
+                            <option value="medan">Medan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="loading" id="itemsLoading">
+                    <div class="spinner"></div>
+                    <p>Memuat barang...</p>
+                </div>
+
+                <div class="items-grid" id="itemsGrid">
+                    </div>
+
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="icon">📦</div>
+                    <h3>Belum ada barang</h3>
+                    <p>Tidak ada barang yang cocok dengan filter Anda saat ini.</p>
+                </div>
+            </section>
+
+            <section id="add-item" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">➕ Tambah Barang</h2>
+                    <form id="addItemForm">
+                        <div class="form-group">
+                            <label class="form-label" for="itemName">Nama Barang *</label>
+                            <input type="text" class="form-input" id="itemName" required placeholder="Contoh: Sepatu Olahraga Nike">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="itemCategory">Kategori *</label>
+                            <select class="form-select" id="itemCategory" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="pakaian">👕 Pakaian</option>
+                                <option value="buku">📚 Buku</option>
+                                <option value="elektronik">📱 Elektronik</option>
+                                <option value="perabotan">🪑 Perabotan</option>
+                                <option value="mainan">🧸 Mainan</option>
+                                <option value="olahraga">⚽ Olahraga</option>
+                                <option value="lainnya">📦 Lainnya</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="itemDescription">Deskripsi *</label>
+                            <textarea class="form-textarea" id="itemDescription" required placeholder="Deskripsikan kondisi, ukuran, dan detail lainnya..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="itemLocation">Lokasi *</label>
+                            <select class="form-select" id="itemLocation" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="jakarta">Jakarta</option>
+                                <option value="bandung">Bandung</option>
+                                <option value="surabaya">Surabaya</option>
+                                <option value="yogyakarta">Yogyakarta</option>
+                                <option value="medan">Medan</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Foto Barang</label>
+                            <div class="file-input-container">
+                                <input type="file" class="file-input" id="itemImage" accept="image/*">
+                                <label for="itemImage" class="file-input-label" id="fileInputLabel">
+                                    📸 Klik untuk upload foto (opsional)
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="form-btn">
+                            ✨ Bagikan Barang
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="my-items" class="section">
+                <div class="items-header">
+                    <div>
+                        <h2 class="section-title">📋 Barang Saya</h2>
+                        <p>Kelola barang yang telah Anda bagikan</p>
+                    </div>
+                </div>
+
+                <div class="items-grid" id="myItemsGrid">
+                    </div>
+
+                <div class="empty-state" id="myItemsEmpty" style="display: none;">
+                    <div class="icon">😢</div>
+                    <h3>Anda belum memiliki barang</h3>
+                    <p>Mulai berbagi barang layak pakai Anda!</p>
+                    <button class="cta-btn" onclick="showSection('add-item')" style="margin-top: 20px;">
+                        ➕ Tambah Barang Pertama
+                    </button>
+                </div>
+            </section>
+
+            <section id="requests" class="section">
+                <div class="items-header">
+                    <div>
+                        <h2 class="section-title">📬 Permintaan</h2>
+                        <p>Kelola permintaan donasi dan tukar barang (Fitur Demo)</p>
+                    </div>
+                </div>
+
+                <div id="requestsList">
+                    </div>
+
+                <div class="empty-state" id="requestsEmpty">
+                    <div class="icon">📬</div>
+                    <h3>Belum ada permintaan</h3>
+                    <p>Permintaan donasi dan tukar akan muncul di sini.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            <h2 class="modal-title">🔐 Masuk ke BumiShare</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="loginName">Nama Lengkap *</label>
+                    <input type="text" class="form-input" id="loginName" required placeholder="Masukkan nama lengkap Anda">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">Email *</label>
+                    <input type="email" class="form-input" id="loginEmail" required placeholder="contoh@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="loginLocation">Lokasi *</label>
+                    <select class="form-select" id="loginLocation" required>
+                        <option value="">Pilih Lokasi</option>
+                        <option value="jakarta">Jakarta</option>
+                        <option value="bandung">Bandung</option>
+                        <option value="surabaya">Surabaya</option>
+                        <option value="yogyakarta">Yogyakarta</option>
+                        <option value="medan">Medan</option>
+                    </select>
+                </div>
+                <button type="submit" class="form-btn">
+                    🚀 Mulai Berbagi
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="itemDetailModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('itemDetailModal')">&times;</button>
+            <div id="itemDetailContent">
+                </div>
+        </div>
+    </div>
+
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('requestModal')">&times;</button>
+            <h2 class="modal-title" id="requestModalTitle">📨 Ajukan Permintaan</h2>
+            <form id="requestForm">
+                <p style="margin-bottom: 20px; color: #6c757d;">Anda akan mengajukan permintaan untuk barang <strong id="requestItemName"></strong>.</p>
+                <div class="form-group">
+                    <label class="form-label" for="requestMessage">Pesan (opsional)</label>
+                    <textarea class="form-textarea" id="requestMessage" placeholder="Tuliskan pesan singkat kepada pemilik barang..."></textarea>
+                </div>
+                <button type="submit" class="form-btn">
+                    📤 Kirim Permintaan
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // --- GLOBAL STATE & CONSTANTS ---
+        let currentUser = null;
+        let allItems = [];
+        let currentItemId = null; // To track which item is being requested
+        const CATEGORY_ICONS = {
+            pakaian: '👕', buku: '📚', elektronik: '📱', perabotan: '🪑',
+            mainan: '🧸', olahraga: '⚽', lainnya: '📦'
+        };
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        function initializeApp() {
+            // Load data from localStorage or create mock data
+            loadData();
+            
+            // Check for a logged-in user
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUIForLoggedInUser();
+            } else {
+                updateUIForLoggedOutUser();
+            }
+
+            // Render initial view
+            showSection('home');
+            updateStats();
+
+            // Attach event listeners
+            attachEventListeners();
+        }
+
+        function attachEventListeners() {
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('addItemForm').addEventListener('submit', handleAddItem);
+            document.getElementById('requestForm').addEventListener('submit', handleRequestSubmit);
+            document.getElementById('itemImage').addEventListener('change', handleFileSelect);
+        }
+
+        // --- DATA HANDLING (localStorage as mock backend) ---
+        function loadData() {
+            const storedItems = localStorage.getItem('allItems');
+            if (storedItems) {
+                allItems = JSON.parse(storedItems);
+            } else {
+                // Create mock data if none exists
+                createMockData();
+                saveData();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('allItems', JSON.stringify(allItems));
+            if(currentUser) {
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            } else {
+                localStorage.removeItem('currentUser');
+            }
+        }
+
+        function createMockData() {
+            const mockUsers = [
+                { name: 'Budi Santoso', email: 'budi@email.com', location: 'jakarta' },
+                { name: 'Citra Lestari', email: 'citra@email.com', location: 'bandung' },
+                { name: 'Adi Nugroho', email: 'adi@email.com', location: 'surabaya' },
+            ];
+
+            allItems = [
+                { id: 1, name: 'Novel Fiksi Klasik', category: 'buku', description: 'Koleksi novel fiksi klasik, kondisi masih sangat baik, hanya sedikit menguning.', location: 'jakarta', owner: mockUsers[0], date: '2025-06-25', image: null },
+                { id: 2, name: 'Kemeja Flanel Pria L', category: 'pakaian', description: 'Kemeja flanel ukuran L, jarang dipakai. Tidak ada cacat.', location: 'bandung', owner: mockUsers[1], date: '2025-06-24', image: null },
+                { id: 3, name: 'Mouse Gaming Logitech', category: 'elektronik', description: 'Mouse gaming fungsional, kabel sedikit terkelupas tapi tidak mempengaruhi performa.', location: 'yogyakarta', owner: {name: 'Dewi', email:'dewi@email.com'}, date: '2025-06-26', image: null },
+                { id: 4, name: 'Rak Buku Kayu Jati', category: 'perabotan', description: 'Rak buku 3 tingkat dari kayu jati. Kokoh, butuh sedikit pernis ulang.', location: 'surabaya', owner: mockUsers[2], date: '2025-06-23', image: null },
+                { id: 5, name: 'Sepatu Basket Size 42', category: 'olahraga', description: 'Sepatu basket original, size 42. Kondisi sol 85%, cocok untuk latihan.', location: 'jakarta', owner: mockUsers[0], date: '2025-06-22', image: null },
+            ];
+        }
+
+        // --- UI & NAVIGATION ---
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Show the target section
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Update active state on nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === sectionId);
+            });
+            
+            // Trigger specific renders for sections
+            if (sectionId === 'items') renderAllItems();
+            if (sectionId === 'my-items') renderMyItems();
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+
+            notificationText.textContent = message;
+            notification.className = 'notification'; // reset classes
+            notification.classList.add(type);
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateUIForLoggedInUser() {
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'inline-block';
+            document.getElementById('addItemBtn').style.display = 'inline-block';
+            document.getElementById('myItemsBtn').style.display = 'inline-block';
+            document.getElementById('requestsBtn').style.display = 'inline-block';
+
+            const userInfo = document.getElementById('userInfo');
+            userInfo.classList.add('active');
+            document.getElementById('userName').textContent = currentUser.name.split(' ')[0];
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+
+            // Update Hero CTA button
+            const heroShareBtn = document.getElementById('heroShareBtn');
+            heroShareBtn.textContent = "🚀 Bagikan Barangmu";
+            heroShareBtn.onclick = () => showSection('add-item');
+            
+            // Set default location in add item form
+            document.getElementById('itemLocation').value = currentUser.location;
+        }
+
+        function updateUIForLoggedOutUser() {
+            document.getElementById('loginBtn').style.display = 'inline-block';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('addItemBtn').style.display = 'none';
+            document.getElementById('myItemsBtn').style.display = 'none';
+            document.getElementById('requestsBtn').style.display = 'none';
+
+            document.getElementById('userInfo').classList.remove('active');
+
+            // Reset Hero CTA button
+            const heroShareBtn = document.getElementById('heroShareBtn');
+            heroShareBtn.textContent = "🚀 Mulai Berbagi";
+            heroShareBtn.onclick = () => showLoginModal();
+        }
+
+        function updateStats() {
+            document.getElementById('totalItems').textContent = allItems.length;
+            // These are mock stats
+            document.getElementById('totalUsers').textContent = new Set(allItems.map(item => item.owner.email)).size + (currentUser ? 1 : 0);
+            document.getElementById('totalDonations').textContent = 12; // Demo value
+            document.getElementById('totalExchanges').textContent = 5;  // Demo value
+        }
+        
+        // --- AUTHENTICATION ---
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('loginName').value;
+            const email = document.getElementById('loginEmail').value;
+            const location = document.getElementById('loginLocation').value;
+
+            if (name && email && location) {
+                currentUser = { name, email, location };
+                saveData();
+                updateUIForLoggedInUser();
+                closeModal('loginModal');
+                showNotification(`Selamat datang, ${currentUser.name}!`);
+                showSection('items');
+                document.getElementById('loginForm').reset();
+            } else {
+                showNotification('Harap isi semua kolom yang wajib diisi.', 'error');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateUIForLoggedOutUser();
+            showNotification('Anda telah berhasil keluar.', 'info');
+            showSection('home');
+        }
+
+        // --- ITEM RENDERING & FILTERING ---
+        function renderItems(items, gridElementId, emptyElementId, isMyItems = false) {
+            const grid = document.getElementById(gridElementId);
+            const emptyState = document.getElementById(emptyElementId);
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                emptyState.style.display = 'block';
+                grid.style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                grid.style.display = 'grid';
+                items.forEach(item => {
+                    const categoryIcon = CATEGORY_ICONS[item.category] || '📦';
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+                    card.innerHTML = `
+                        <div class="item-image">
+                           ${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<div class="icon">${categoryIcon}</div>`}
+                        </div>
+                        <div class="item-content">
+                            <span class="item-category">${categoryIcon} ${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</span>
+                            <h3 class="item-title">${item.name}</h3>
+                            <p class="item-description">${item.description}</p>
+                            <div class="item-meta">
+                                <span class="item-location">📍 ${item.location.charAt(0).toUpperCase() + item.location.slice(1)}</span>
+                                <span class="item-date">📅 ${item.date}</span>
+                            </div>
+                            <button class="item-card-btn" onclick="showItemDetailModal(${item.id})">
+                                ${isMyItems ? '✏️ Kelola Barang' : '🔍 Lihat Detail'}
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        function renderAllItems() {
+            filterItems();
+        }
+
+        function renderMyItems() {
+            if (!currentUser) return;
+            const userItems = allItems.filter(item => item.owner.email === currentUser.email);
+            renderItems(userItems, 'myItemsGrid', 'myItemsEmpty', true);
+        }
+
+        function filterItems() {
+            const category = document.getElementById('categoryFilter').value;
+            const location = document.getElementById('locationFilter').value;
+            
+            let filteredItems = allItems;
+
+            if (category) {
+                filteredItems = filteredItems.filter(item => item.category === category);
+            }
+            if (location) {
+                filteredItems = filteredItems.filter(item => item.location === location);
+            }
+
+            renderItems(filteredItems, 'itemsGrid', 'emptyState', false);
+        }
+        
+        // --- ITEM MANAGEMENT ---
+        function handleAddItem(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(), // simple unique ID
+                name: document.getElementById('itemName').value,
+                category: document.getElementById('itemCategory').value,
+                description: document.getElementById('itemDescription').value,
+                location: document.getElementById('itemLocation').value,
+                owner: currentUser,
+                date: new Date().toISOString().split('T')[0],
+                image: document.getElementById('itemImage').__fileData || null
+            };
+
+            allItems.unshift(newItem); // Add to the beginning of the array
+            saveData();
+            showNotification('Barang berhasil ditambahkan!');
+            document.getElementById('addItemForm').reset();
+            document.getElementById('fileInputLabel').textContent = '📸 Klik untuk upload foto (opsional)';
+            delete document.getElementById('itemImage').__fileData;
+            
+            updateStats();
+            showSection('my-items');
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // In a real app, you'd upload this. Here, we store it as a Data URL.
+                    event.target.__fileData = e.target.result;
+                    document.getElementById('fileInputLabel').textContent = `✔️ ${file.name}`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // --- MODALS ---
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function showItemDetailModal(itemId) {
+            const item = allItems.find(i => i.id === itemId);
+            if (!item) return;
+            
+            currentItemId = itemId;
+            const content = document.getElementById('itemDetailContent');
+            const categoryIcon = CATEGORY_ICONS[item.category] || '📦';
+            const isOwner = currentUser && currentUser.email === item.owner.email;
+
+            content.innerHTML = `
+                <h2 class="modal-title">${item.name}</h2>
+                <div class="item-image" style="height: 250px; border-radius: 10px; margin-bottom: 20px;">
+                     ${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<div class="icon">${categoryIcon}</div>`}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kategori</label>
+                    <p>${categoryIcon} ${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Deskripsi</label>
+                    <p>${item.description}</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lokasi</label>
+                    <p>📍 ${item.location.charAt(0).toUpperCase() + item.location.slice(1)}</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dibagikan oleh</label>
+                    <p>👤 ${item.owner.name} pada ${item.date}</p>
+                </div>
+                ${isOwner ? 
+                    `<button class="form-btn" style="background: #dc3545;" onclick="deleteItem(${item.id})">🗑️ Hapus Barang</button>` :
+                    `<button class="form-btn" onclick="showRequestModal()">🙋 Ajukan Permintaan</button>`
+                }
+            `;
+            
+            document.getElementById('itemDetailModal').classList.add('active');
+        }
+        
+        function deleteItem(itemId) {
+            if(confirm("Apakah Anda yakin ingin menghapus barang ini?")) {
+                allItems = allItems.filter(item => item.id !== itemId);
+                saveData();
+                closeModal('itemDetailModal');
+                showNotification('Barang berhasil dihapus.', 'info');
+                renderMyItems();
+                updateStats();
+            }
+        }
+        
+        function showRequestModal() {
+            if (!currentUser) {
+                showNotification('Anda harus masuk untuk mengajukan permintaan.', 'info');
+                closeModal('itemDetailModal');
+                showLoginModal();
+                return;
+            }
+            closeModal('itemDetailModal');
+            const item = allItems.find(i => i.id === currentItemId);
+            document.getElementById('requestItemName').textContent = item.name;
+            document.getElementById('requestModal').classList.add('active');
+        }
+        
+        function handleRequestSubmit(e) {
+            e.preventDefault();
+            // This is a demo, so we just show a notification
+            closeModal('requestModal');
+            showNotification('Permintaan Anda telah berhasil dikirim (Demo).');
+            document.getElementById('requestForm').reset();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+    </script>
+</body>
+</html>
